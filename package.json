@@ -10,6 +10,7 @@
     "api",
     "performance"
   ],
+  "repository": "https://github.com/teamrun/node-apiperf.git",
   "engines": {
     "node": ">= 0.11.16",
     "iojs": ">= 1.0.0"
