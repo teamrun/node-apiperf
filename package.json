@@ -1,0 +1,26 @@
+{
+  "name": "node-apiperf",
+  "version": "1.0.0",
+  "description": "a performnace tool for node api/page handling",
+  "main": "app.js",
+  "scripts": {
+    "test": "node example/app.js"
+  },
+  "keywords": [
+    "api",
+    "performance"
+  ],
+  "engines": {
+    "node": ">= 0.11.16",
+    "iojs": ">= 1.0.0"
+  },
+  "author": "teamrun",
+  "license": "mit",
+  "devDependencies": {
+    "koa": "^0.18.0"
+  },
+  "dependencies": {
+    "mime": "^1.3.4",
+    "nedb": "^1.1.1"
+  }
+}
