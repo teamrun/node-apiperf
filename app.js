@@ -1,3 +1,5 @@
+var modelGen = require('./model');
+var pageServer = require('./page');
 
 
 function buildDataItem(start, end, ctx){
@@ -28,6 +30,19 @@ function isApiType(ctx){
     return ctx.type == 'application/json';
 }
 
+function getDataOfLast7(Model){
+    return Model.query({
+        ts:{
+            // $gt: Date.now() - 7*24*3600*1000
+            $gt: Date.now() - 2*3600*1000
+        }
+    })
+}
+
+function isSelf(ctx){
+    return /^\/api-perf\//.test(ctx.path) || ctx.path == '/api-perf';
+}
+
 
 
 function gen(config){
@@ -53,23 +68,46 @@ function gen(config){
             }
         }
     }
-
-    needRecord = function (ctx) {
-        return (isPageType(ctx) || isApiType(ctx));
+    // 是否记录自己的性能
+    if(config.perfSelf){
+        needRecord = function (ctx) {
+            return (isPageType(ctx) || isApiType(ctx));
+        }
     }
+    else{
+        needRecord = function (ctx) {
+            return (isPageType(ctx) || isApiType(ctx)) && !isSelf(ctx);
+        }
+    }
+
     
+    
+    var Model = modelGen(config);
 
     return function*(next){
+
         var start = Date.now();
-        // 之后的api或者page的路由处理中可以自己添加一个 this.apiPerfVerbose 数组
-        // 来添加额外的数据
-        // yield完成之后会自动保存到数据库
-        yield next;
+
+        if(this.path.indexOf('/api-perf') == 0){
+            // this.body = yield getDataOfLast7(Model);
+            pageServer.call(this);
+            // return;
+        }
+        else{
+            // 之后的api或者page的路由处理中可以自己添加一个 this.apiPerfVerbose 数组
+            // 来添加额外的数据
+            // yield完成之后会自动保存到数据库
+            yield next;
+        }
+        
 
         if( needRecord(this) ){
             var end = Date.now();
-            console.log(buildDataItem(start, end, this));
-            // console.log(`page ${this.path} spend ${end-start}ms to responce`);
+            var d = buildDataItem(start, end, this);
+            setTimeout(function(){
+                Model.save(d);
+            });
+            console.log(d);
         }
     }
 }

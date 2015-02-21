@@ -1,4 +1,5 @@
 var koa = require('koa');
+var path = require ('path');
 var apiPerf = require('../');
 
 
@@ -11,10 +12,17 @@ function wait(ms){
 
 var app = koa();
 
-app.use(apiPerf());
+app.use(apiPerf({
+    tests: {
+        api: /^\/api\//
+    },
+    perfSelf: false,
+    dbfile: path.resolve(__dirname, '../perf_db')
+}));
 
 
 app.use(function* (){
+    // 等候一个随机值
     yield wait(Math.random()*500);
     switch(this.path){
         // text/plain
@@ -26,7 +34,7 @@ app.use(function* (){
             this.body = '<h2>Hello, page hosted by koa</h2>';
             this.body += '<br><a href="/">Home text/plain</a>';
             this.body += '<br><a href="/api/foo">json api</a>';
-            this.body += '<br><a href="/dadada">UnknownPage</a>';
+            this.body += '<br><a href="/dadada">404页面</a>';
             break;
         // json
         case '/api/foo':
