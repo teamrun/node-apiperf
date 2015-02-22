@@ -30,14 +30,7 @@ function isApiType(ctx){
     return ctx.type == 'application/json';
 }
 
-function getDataOfLast7(Model){
-    return Model.query({
-        ts:{
-            // $gt: Date.now() - 7*24*3600*1000
-            $gt: Date.now() - 2*3600*1000
-        }
-    })
-}
+
 
 function isSelf(ctx){
     return /^\/api-perf\//.test(ctx.path) || ctx.path == '/api-perf';
@@ -89,9 +82,7 @@ function gen(config){
         var start = Date.now();
 
         if(this.path.indexOf('/api-perf') == 0){
-            // this.body = yield getDataOfLast7(Model);
-            pageServer.call(this);
-            // return;
+            yield pageServer(Model).call(this);
         }
         else{
             // 之后的api或者page的路由处理中可以自己添加一个 this.apiPerfVerbose 数组

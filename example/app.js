@@ -11,6 +11,15 @@ function wait(ms){
 
 
 var app = koa();
+app.use(function*(next){
+    try{
+        yield next;
+    }
+    catch(err){
+        // console.log(err)
+        console.log(err.stack)
+    }
+})
 
 app.use(apiPerf({
     tests: {
