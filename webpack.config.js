@@ -8,6 +8,7 @@ var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 
 
 module.exports = {
+    devtool: 'source-map',
     entry: {
         app: ['./lib/app']
         // markdown: ['./index']
@@ -20,7 +21,7 @@ module.exports = {
     },
     plugins: [
         // new CommonsChunkPlugin("share.js"),
-        new webpack.HotModuleReplacementPlugin(),
+        // new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin()
     ],
     module: {

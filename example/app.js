@@ -32,7 +32,7 @@ app.use(apiPerf({
 
 app.use(function* (){
     // 等候一个随机值
-    yield wait(Math.random()*500);
+    yield wait(Math.random()*200);
     switch(this.path){
         // text/plain
         case '/':

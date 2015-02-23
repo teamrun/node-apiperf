@@ -24,16 +24,22 @@ module.exports = function(Model){
 
         // serve js
         if(this.path == '/api-perf/lib/bundle.js'){
-            this.type = 'javascript';
+            this.type = 'application/javascript';
             this.body = fs.createReadStream(bundlePath);
+        }
+        else if(this.path == '/api-perf/lib/bundle.js.map'){
+            this.type = 'application/javascript';
+            this.body = fs.createReadStream(bundlePath+'.map');
         }
         // serve page
         else{
             this.type = 'html';
+            console.time('api-perf html');
             var content = yield tool.promisify(fs.readFile)(pagePath, 'utf-8');
             var data = yield getDataOfLast7(Model);
             content = content.replace('{{data}}', JSON.stringify(data));
             // console.log(content)
+            console.timeEnd('api-perf html');
             this.body = content;
         }
     };
