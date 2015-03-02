@@ -98,7 +98,7 @@ function gen(config){
             setTimeout(function(){
                 Model.save(d);
             });
-            console.log(d);
+            // console.log(d);
         }
     }
 }
