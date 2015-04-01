@@ -4,7 +4,7 @@
   "description": "a performnace tool for node api/page handling",
   "main": "app.js",
   "scripts": {
-    "test": "node example/app.js"
+    "demo": "node example/app.js"
   },
   "keywords": [
     "api",
