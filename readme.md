@@ -19,3 +19,27 @@ api: 提供一个test的config入口, 以什么格式实现的接口路由算是
 
 
 以后可以引入worker, co-routine, msg-que
+
+
+# see example:
+
+需要nodejs version > 0.11.12 或者iojs. 推荐使用nvm安装
+
+    nvm install iojs
+    nvm use iojs
+    
+安装所有依赖: `npm install`
+
+启动example的server:
+    
+    npm run demo
+
+访问http://localhost:4001, 制造一些访问数据.
+
+* [/](http://localhost:4001)
+* [index.html](http://localhost:4001/index.html)
+* [/api/foo](http://localhost:4001/api/foo)
+* [404](http://localhost:4001/xxxxxx)
+
+访问结果页面: [apiPerf](http://localhost:4001/api-perf)
+点击summer图标的bar可以看到接口的详细响应时间.
