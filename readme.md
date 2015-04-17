@@ -43,3 +43,6 @@ api: 提供一个test的config入口, 以什么格式实现的接口路由算是
 
 访问结果页面: [apiPerf](http://localhost:4001/api-perf)
 点击summer图标的bar可以看到接口的详细响应时间.
+
+### relative issue:
+[react-chartjs, how to bing event to a bar](https://github.com/jhudson8/react-chartjs/issues/10)
